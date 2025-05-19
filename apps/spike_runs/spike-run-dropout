@@ -1,0 +1,12 @@
+
+=============
+=  DROPOUT  =
+=============
+
+
+Running Dropout with 1024 elements.
+Vfuml instruction at address: 0x800008f8
+The execution took 0 cycles.
+Max performance.
+The performance is %f SPFLOP/cycle. Max achievable is %f SPFLOP/cycle. (%f% on max). With %f% FPU utilization.
+Passed.

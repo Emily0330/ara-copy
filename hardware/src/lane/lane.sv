@@ -105,7 +105,9 @@ module lane import ara_pkg::*; import rvv_pkg::*; #(
     // Interface between the Mask unit and the VFUs
     input  strb_t                                          mask_i,
     input  logic                                           mask_valid_i,
-    output logic                                           mask_ready_o
+    output logic                                           mask_ready_o,
+    // Interface with TMAC unit
+    output logic [NrVInsn-1:0]                             tmac_vinsn_done_o
   );
 
   `include "common_cells/registers.svh"
@@ -234,6 +236,19 @@ module lane import ara_pkg::*; import rvv_pkg::*; #(
   assign pe_req    = pe_req_i;
   assign pe_resp_o = pe_resp;
 
+  // Interface with TMAC unit
+  elen_t [1:0]               tmac_operand;
+  logic  [1:0]               tmac_operand_valid;
+  logic  [1:0]               tmac_operand_ready;
+  logic                      tmac_result_req;
+  vid_t                      tmac_result_id;
+  vaddr_t                    tmac_result_addr;
+  elen_t                     tmac_result_wdata;
+  strb_t                     tmac_result_be;
+  logic                      tmac_result_gnt;
+  logic                      tmac_ready;
+  logic [NrVInsn-1:0]        tmac_vinsn_done;
+
   lane_sequencer #(
     .NrLanes              (NrLanes              ),
     .pe_req_t             (pe_req_t             ),
@@ -268,6 +283,11 @@ module lane import ara_pkg::*; import rvv_pkg::*; #(
     .alu_vinsn_done_i       (alu_vinsn_done       ),
     .mfpu_ready_i           (mfpu_ready           ),
     .mfpu_vinsn_done_i      (mfpu_vinsn_done      ),
+
+    // Add to the lane_sequencer instantiation
+    .tmac_ready_i           (tmac_ready              ),
+    .tmac_vinsn_done_i      (tmac_vinsn_done         ),
+    .tmac_vinsn_done_o      (tmac_vinsn_done_o       ),
     // From the MASKU - for VRGATHER/VCOMPRESS
     .masku_vrgat_req_valid_i(masku_vrgat_req_valid_i ),
     .masku_vrgat_req_ready_o(masku_vrgat_req_ready_o ),
@@ -357,6 +377,14 @@ module lane import ara_pkg::*; import rvv_pkg::*; #(
     .mfpu_result_wdata_i      (mfpu_result_wdata       ),
     .mfpu_result_be_i         (mfpu_result_be          ),
     .mfpu_result_gnt_o        (mfpu_result_gnt         ),
+    // Add to operand_requester instantiation
+    .tmac_result_req_i        (tmac_result_req       ),
+    .tmac_result_id_i         (tmac_result_id        ),
+    .tmac_result_addr_i       (tmac_result_addr      ),
+    .tmac_result_wdata_i      (tmac_result_wdata     ),
+    .tmac_result_be_i         (tmac_result_be        ),
+    .tmac_result_gnt_o        (tmac_result_gnt       ),
+    //.tmac_result_final_gnt_o      (tmac_result_final_gnt),
     // Mask Unit
     .masku_result_req_i       (masku_result_req_i      ),
     .masku_result_id_i        (masku_result_id_i       ),
@@ -464,6 +492,9 @@ module lane import ara_pkg::*; import rvv_pkg::*; #(
     .mfpu_operand_o                   (mfpu_operand                       ),
     .mfpu_operand_valid_o             (mfpu_operand_valid                 ),
     .mfpu_operand_ready_i             (mfpu_operand_ready                 ),
+    .tmac_operand_o                   (tmac_operand                       ),
+    .tmac_operand_valid_o             (tmac_operand_valid                 ),
+    .tmac_operand_ready_i             (tmac_operand_ready                 ),
     // Store Unit
     .stu_operand_o                    (stu_operand_o                      ),
     .stu_operand_valid_o              (stu_operand_valid_o                ),
@@ -558,7 +589,19 @@ module lane import ara_pkg::*; import rvv_pkg::*; #(
     .mask_operand_ready_i (mask_operand_ready_i[2 +: NrMaskFUnits]),
     .mask_i               (mask                                   ),
     .mask_valid_i         (mask_valid                             ),
-    .mask_ready_o         (mask_ready                             )
+    .mask_ready_o         (mask_ready                             ),
+    // Interface with TMAC
+    .tmac_operand_i         (tmac_operand             ),
+    .tmac_operand_valid_i   (tmac_operand_valid       ),
+    .tmac_operand_ready_o   (tmac_operand_ready       ),
+    .tmac_ready_o           (tmac_ready               ),
+    .tmac_vinsn_done_o      (tmac_vinsn_done          ),
+    .tmac_result_req_o      (tmac_result_req          ),
+    .tmac_result_id_o       (tmac_result_id           ),
+    .tmac_result_addr_o     (tmac_result_addr         ),
+    .tmac_result_wdata_o    (tmac_result_wdata        ),
+    .tmac_result_be_o       (tmac_result_be           ),
+    .tmac_result_gnt_i      (tmac_result_gnt          )
   );
 
   /******************************

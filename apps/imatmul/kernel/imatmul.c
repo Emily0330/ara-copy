@@ -282,7 +282,7 @@ void imatmul_vec_8x8(int64_t *c, const int64_t *a, const int64_t *b,
     b += P;
 
     asm volatile("vmacc.vx v2, %0, v20" ::"r"(t1));
-    t1 = *a, a += N;
+    t1 = *a, a += N;ec
     asm volatile("vmacc.vx v4, %0, v20" ::"r"(t2));
     t2 = *a, a += N;
     asm volatile("vmacc.vx v6, %0, v20" ::"r"(t3));

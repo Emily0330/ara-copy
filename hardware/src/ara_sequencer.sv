@@ -19,7 +19,7 @@ module ara_sequencer import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg::i
     // Dependant parameters. DO NOT CHANGE!
     // Ara has NrLanes + 3 processing elements: each one of the lanes, the vector load unit, the
     // vector store unit, the slide unit, and the mask unit.
-    localparam int unsigned NrPEs   = NrLanes + 4,
+    localparam int unsigned NrPEs   = NrLanes + 5,
     localparam type         vlen_t  = logic[$clog2(VLEN+1)-1:0]
   ) (
     input  logic                            clk_i,
@@ -39,6 +39,7 @@ module ara_sequencer import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg::i
     input  pe_resp_t            [NrPEs-1:0] pe_resp_i,
     input  logic                            alu_vinsn_done_i,
     input  logic                            mfpu_vinsn_done_i,
+    input  logic                            tmac_vinsn_done_i,
     // Interface with the operand requesters
     output logic [NrVInsn-1:0][NrVInsn-1:0] global_hazard_table_o,
     // Only the slide unit can answer with a scalar response
@@ -245,6 +246,7 @@ module ara_sequencer import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg::i
       [VLE:VLXE]           : vfu = VFU_LoadUnit;
       [VSE:VSXE]           : vfu = VFU_StoreUnit;
       [VSLIDEUP:VSLIDEDOWN]: vfu = VFU_SlideUnit;
+      [VTMAC:VTMACC]       : vfu = VFU_TmacUnit;
       [VMVXS:VFMVFS]       : vfu = VFU_None;
       default              : vfu = VFU_None;
     endcase
@@ -286,6 +288,9 @@ module ara_sequencer import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg::i
       [VSLIDEUP:VSLIDEDOWN]:
         for (int i = 0; i < NrVFUs; i++)
           if (i == VFU_SlideUnit) target_vfus[i] = 1'b1;
+      [VTMAC:VTMACC]:
+        for(int i = 0; i < NrVFUs; i++)
+          if(i == VFU_TmacUnit)   target_vfus[i] = 1'b1;
       [VMVXS:VFMVFS]:
         for (int i = 0; i < NrVFUs; i++)
           if (i == VFU_None) target_vfus[i] = 1'b1;
@@ -304,6 +309,7 @@ module ara_sequencer import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg::i
     MaskuInsnQueueDepth,
     VlduInsnQueueDepth,
     VstuInsnQueueDepth,
+    TmacInsnQueueDepth,
     NoneInsnQueueDepth
   };
 
@@ -639,6 +645,8 @@ module ara_sequencer import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg::i
   // ALU and MFPU has different signal sources
   assign insn_queue_done[VFU_Alu]       = alu_vinsn_done_i;
   assign insn_queue_done[VFU_MFpu]      = mfpu_vinsn_done_i;
+  // Tmac
+  assign insn_queue_done[VFU_TmacUnit]  = tmac_vinsn_done_i;
   assign insn_queue_done[VFU_LoadUnit]  = |pe_resp_i[NrLanes+OffsetLoad].vinsn_done;
   assign insn_queue_done[VFU_StoreUnit] = |pe_resp_i[NrLanes+OffsetStore].vinsn_done;
   assign insn_queue_done[VFU_MaskUnit]  = |pe_resp_i[NrLanes+OffsetMask].vinsn_done;

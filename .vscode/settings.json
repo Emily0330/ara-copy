@@ -1,0 +1,6 @@
+{
+    "cmake.sourceDirectory": "/home/mickey/ara/toolchain/verilator",
+    "files.associations": {
+        "printf.h": "c"
+    }
+}

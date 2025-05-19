@@ -68,4 +68,6 @@ emit("P", np.array(P, dtype=np.uint64))
 emit("a", A, 'NR_LANES*4')
 emit("b", B, 'NR_LANES*4')
 emit("c", C, 'NR_LANES*4')
+emit("c_scalar", C.copy(), 'NR_LANES*4')
+emit("c_vtmac", C.copy(), 'NR_LANES*4')  # Added for the VTMAC implementation
 emit("g", G, 'NR_LANES*4')

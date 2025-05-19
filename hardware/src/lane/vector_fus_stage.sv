@@ -80,7 +80,18 @@ module vector_fus_stage import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg
     input  logic           [NrMaskFUnits-1:0] mask_operand_ready_i,
     input  strb_t                             mask_i,
     input  logic                              mask_valid_i,
-    output logic                              mask_ready_o
+    output logic                              mask_ready_o,
+    input  elen_t [1:0]           tmac_operand_i,
+    input  logic  [1:0]           tmac_operand_valid_i,
+    output logic  [1:0]           tmac_operand_ready_o,
+    output logic                  tmac_ready_o,
+    output logic [NrVInsn-1:0]    tmac_vinsn_done_o,
+    output logic                  tmac_result_req_o,
+    output vid_t                  tmac_result_id_o,
+    output vaddr_t                tmac_result_addr_o,
+    output elen_t                 tmac_result_wdata_o,
+    output strb_t                 tmac_result_be_o,
+    input  logic                  tmac_result_gnt_i
   );
 
   ///////////////
@@ -93,11 +104,49 @@ module vector_fus_stage import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg
   // broadcasted signals if more masked instructions can be in different units at the same time.
   logic alu_mask_ready;
   logic mfpu_mask_ready;
-  assign mask_ready_o = alu_mask_ready | mfpu_mask_ready;
+  logic tmac_mask_ready;
+  assign mask_ready_o = alu_mask_ready | mfpu_mask_ready | tmac_mask_ready;
 
   // saturation selection
   logic alu_vxsat, mfpu_vxsat;
-  assign vxsat_flag_o = mfpu_vxsat | alu_vxsat;
+  logic tmac_vxsat;
+  assign vxsat_flag_o = mfpu_vxsat | alu_vxsat | tmac_vxsat;
+
+  ///////////////////
+  //  Vector TMAC  //
+  ///////////////////
+
+  vtmac #(
+    .NrLanes         (NrLanes        ),
+    .VLEN            (VLEN           ),
+    .vaddr_t         (vaddr_t        ),
+    .vfu_operation_t (vfu_operation_t)
+  ) i_vtmac (
+    .clk_i                  (clk_i                          ),
+    .rst_ni                 (rst_ni                         ),
+    .lane_id_i              (lane_id_i                      ),
+    // Interface with the lane sequencer
+    .vfu_operation_i        (vfu_operation_i                ),
+    .vfu_operation_valid_i  (vfu_operation_valid_i          ),
+    .tmac_ready_o           (tmac_ready_o                   ),
+    .tmac_vinsn_done_o      (tmac_vinsn_done_o              ),
+    // Interface with the operand queues
+    .tmac_operand_i         (tmac_operand_i                 ),
+    .tmac_operand_valid_i   (tmac_operand_valid_i           ),
+    .tmac_operand_ready_o   (tmac_operand_ready_o           ),
+    // Interface with the vector register file
+    .tmac_result_req_o      (tmac_result_req_o              ),
+    .tmac_result_id_o       (tmac_result_id_o               ),
+    .tmac_result_addr_o     (tmac_result_addr_o             ),
+    .tmac_result_wdata_o    (tmac_result_wdata_o            ),
+    .tmac_result_be_o       (tmac_result_be_o               ),
+    .tmac_result_gnt_i      (tmac_result_gnt_i              ),
+    // Interface with the Mask unit
+    .mask_i                 (mask_i                         ),
+    .mask_valid_i           (mask_valid_i                   ),
+    .mask_ready_o           (tmac_mask_ready                )
+  );
+
 
   //////////////////
   //  Vector ALU  //
@@ -204,5 +253,9 @@ module vector_fus_stage import ara_pkg::*; import rvv_pkg::*; import cf_math_pkg
     .mask_valid_i         (mask_valid_i                    ),
     .mask_ready_o         (mfpu_mask_ready                 )
   );
+
+
+
+
 
 endmodule : vector_fus_stage

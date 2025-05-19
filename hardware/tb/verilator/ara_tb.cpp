@@ -44,5 +44,6 @@ int main(int argc, char **argv) {
 
   simctrl.RunSimulation();
 
+    
   return tb->dut().exit_o >> 1;
 }

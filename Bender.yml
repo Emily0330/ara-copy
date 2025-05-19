@@ -57,6 +57,7 @@ sources:
     - hardware/src/lane/operand_queues_stage.sv
     - hardware/src/lane/valu.sv
     - hardware/src/lane/vmfpu.sv
+    - hardware/src/lane/vtmac.sv
     - hardware/src/lane/fixed_p_rounding.sv
     - hardware/src/vlsu/vlsu.sv
     - hardware/src/masku/masku.sv

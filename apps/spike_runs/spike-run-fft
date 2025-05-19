@@ -1,0 +1,35 @@
+
+=========
+=  FFT  =
+=========
+
+
+
+------------------------------------------------------------
+------------------------------------------------------------
+
+Radix 2 DIF FFT on 64 points
+Initializing Twiddle Factors
+Initializing Swap Table
+Initializing Inputs for DIT
+Initializing Inputs for DIF
+The DIF execution took 0 cycles.
+The DIT execution took 0 cycles.
+Performance: %f. Max perf: %f. Actual performance is %f% of max.
+
+Comparison of the first 5 output numbers:
+
+Out_DIF[0] == %f + (%f)j
+Out_DIF[1] == %f + (%f)j
+Out_DIF[2] == %f + (%f)j
+Out_DIF[3] == %f + (%f)j
+Out_DIF[4] == %f + (%f)j
+
+Out_vec_DIF[0] == %f + (%f)j
+Out_vec_DIF[1] == %f + (%f)j
+Out_vec_DIF[2] == %f + (%f)j
+Out_vec_DIF[3] == %f + (%f)j
+Out_vec_DIF[4] == %f + (%f)j
+
+Test result: PASS. The output is correct.
+

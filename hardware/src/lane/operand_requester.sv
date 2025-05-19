@@ -80,7 +80,15 @@ module operand_requester import ara_pkg::*; import rvv_pkg::*; #(
     input  elen_t                                      ldu_result_wdata_i,
     input  strb_t                                      ldu_result_be_i,
     output logic                                       ldu_result_gnt_o,
-    output logic                                       ldu_result_final_gnt_o
+    output logic                                       ldu_result_final_gnt_o,
+    // TMAC
+    input  logic                                       tmac_result_req_i,
+    input  vid_t                                       tmac_result_id_i,
+    input  vaddr_t                                     tmac_result_addr_i,
+    input  elen_t                                      tmac_result_wdata_i,
+    input  strb_t                                      tmac_result_be_i,
+    output logic                                       tmac_result_gnt_o
+    //output logic                                       tmac_result_final_gnt_o
   );
 
   import cf_math_pkg::idx_width;

@@ -164,6 +164,7 @@ sim: compile
 	cd $(buildpath) && \
 	$(questa_cmd) vsim $(questa_args) $(library).$(top_level) -do ../scripts/run$(ideal).tcl
 	./scripts/return_status.sh $(buildpath)/transcript
+	
 
 .PHONY: simc
 simc: compile

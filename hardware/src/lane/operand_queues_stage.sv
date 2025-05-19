@@ -52,7 +52,10 @@ module operand_queues_stage import ara_pkg::*; import rvv_pkg::*; import cf_math
     // Mask unit
     output elen_t              [1:0]                 mask_operand_o,
     output logic               [1:0]                 mask_operand_valid_o,
-    input  logic               [1:0]                 mask_operand_ready_i
+    input  logic               [1:0]                 mask_operand_ready_i,
+    output elen_t [1:0]               tmac_operand_o,
+    output logic  [1:0]               tmac_operand_valid_o,
+    input  logic  [1:0]               tmac_operand_ready_i
   );
 
   `include "common_cells/registers.svh"
@@ -327,6 +330,66 @@ module operand_queues_stage import ara_pkg::*; import rvv_pkg::*; import cf_math
     .operand_target_fu_o      (/* Unused */                    ),
     .operand_valid_o          (mask_operand_valid_o[0]         ),
     .operand_ready_i          (mask_operand_ready_i[0]         )
+  );
+
+    /////////////////
+    //  Tmac Unit  //
+    /////////////////
+
+  operand_queue #(
+    .CmdBufDepth        (TmacInsnQueueDepth   ),
+    .DataBufDepth       (5                    ),
+    .FPUSupport         (FPUSupportNone       ),
+    .NrLanes            (NrLanes              ),
+    .VLEN               (VLEN                 ),
+    .SupportIntExt2     (1'b1                 ),
+    .SupportIntExt4     (1'b1                 ),
+    .SupportIntExt8     (1'b1                 ),
+    .operand_queue_cmd_t(operand_queue_cmd_t  )
+  ) i_operand_queue_tmac_a (
+    .clk_i                    (clk_i                          ),
+    .rst_ni                   (rst_ni                         ),
+    .flush_i                  (1'b0                           ),
+    .lane_id_i                (lane_id_i                      ),
+    .operand_queue_cmd_i      (operand_queue_cmd_i[TmacA]     ),
+    .operand_queue_cmd_valid_i(operand_queue_cmd_valid_i[TmacA]),
+    .cmd_pop_o                (/* Unused */                   ),
+    .operand_i                (operand_i[TmacA]               ),
+    .operand_valid_i          (operand_valid_i[TmacA]         ),
+    .operand_issued_i         (operand_issued_i[TmacA]        ),
+    .operand_queue_ready_o    (operand_queue_ready_o[TmacA]   ),
+    .operand_o                (tmac_operand_o[0]              ),
+    .operand_target_fu_o      (/* Unused */                   ),
+    .operand_valid_o          (tmac_operand_valid_o[0]        ),
+    .operand_ready_i          (tmac_operand_ready_i[0]        )
+  );
+
+  operand_queue #(
+    .CmdBufDepth        (TmacInsnQueueDepth   ),
+    .DataBufDepth       (5                    ),
+    .FPUSupport         (FPUSupportNone       ),
+    .NrLanes            (NrLanes              ),
+    .VLEN               (VLEN                 ),
+    .SupportIntExt2     (1'b1                 ),
+    .SupportIntExt4     (1'b1                 ),
+    .SupportIntExt8     (1'b1                 ),
+    .operand_queue_cmd_t(operand_queue_cmd_t  )
+  ) i_operand_queue_tmac_b (
+    .clk_i                    (clk_i                          ),
+    .rst_ni                   (rst_ni                         ),
+    .flush_i                  (1'b0                           ),
+    .lane_id_i                (lane_id_i                      ),
+    .operand_queue_cmd_i      (operand_queue_cmd_i[TmacB]     ),
+    .operand_queue_cmd_valid_i(operand_queue_cmd_valid_i[TmacB]),
+    .cmd_pop_o                (/* Unused */                   ),
+    .operand_i                (operand_i[TmacB]               ),
+    .operand_valid_i          (operand_valid_i[TmacB]         ),
+    .operand_issued_i         (operand_issued_i[TmacB]        ),
+    .operand_queue_ready_o    (operand_queue_ready_o[TmacB]   ),
+    .operand_o                (tmac_operand_o[1]              ),
+    .operand_target_fu_o      (/* Unused */                   ),
+    .operand_valid_o          (tmac_operand_valid_o[1]        ),
+    .operand_ready_i          (tmac_operand_ready_i[1]        )
   );
 
   // Checks

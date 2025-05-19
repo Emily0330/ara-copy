@@ -1,0 +1,121 @@
+
+=========================================
+= VTMAC vs Standard Matrix Multiplication =
+=========================================
+
+
+-------------------------------------------------------
+Testing with vector size 4...
+-------------------------------------------------------
+
+Initializing test data...
+Running standard matrix multiplication...
+Running TMAC kernel...
+
+Performance Comparison for size 4:
+Standard Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+TMAC Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+Improvement Ratio:
+  Instruction count: %.2fx
+  Cycle count: %.2fx
+Verifying results...
+Verification passed.
+
+-------------------------------------------------------
+Testing with vector size 8...
+-------------------------------------------------------
+
+Initializing test data...
+Running standard matrix multiplication...
+Running TMAC kernel...
+
+Performance Comparison for size 8:
+Standard Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+TMAC Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+Improvement Ratio:
+  Instruction count: %.2fx
+  Cycle count: %.2fx
+Verifying results...
+Verification passed.
+
+-------------------------------------------------------
+Testing with vector size 16...
+-------------------------------------------------------
+
+Initializing test data...
+Running standard matrix multiplication...
+Running TMAC kernel...
+
+Performance Comparison for size 16:
+Standard Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+TMAC Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+Improvement Ratio:
+  Instruction count: %.2fx
+  Cycle count: %.2fx
+Verifying results...
+Verification passed.
+
+-------------------------------------------------------
+Testing with vector size 32...
+-------------------------------------------------------
+
+Initializing test data...
+Running standard matrix multiplication...
+Running TMAC kernel...
+
+Performance Comparison for size 32:
+Standard Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+TMAC Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+Improvement Ratio:
+  Instruction count: %.2fx
+  Cycle count: %.2fx
+Verifying results...
+Verification passed.
+
+-------------------------------------------------------
+Testing with vector size 64...
+-------------------------------------------------------
+
+Initializing test data...
+Running standard matrix multiplication...
+Running TMAC kernel...
+
+Performance Comparison for size 64:
+Standard Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+TMAC Matrix Multiplication:
+  Instructions: 25
+  Cycles: 23
+  Cycles per element: %.2f
+Improvement Ratio:
+  Instruction count: %.2fx
+  Cycle count: %.2fx
+Verifying results...
+Error at index 0: got %f, expected %f
+Verification failed!

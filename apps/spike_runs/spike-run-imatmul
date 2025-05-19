@@ -1,0 +1,182 @@
+
+=============
+=  IMATMUL  =
+=============
+
+
+
+------------------------------------------------------------
+Calculating a (4 x 4) x (4 x 4) matrix multiplication...
+------------------------------------------------------------
+
+Calculating scalar imatmul...
+The scalar execution took 0 cycles.
+Scalar instruction count: 719
+The scalar performance is %.2f OP/cycle (%.2f% utilization).
+Calculating standard vector imatmul...
+The standard vector execution took 0 cycles.
+Standard vector instruction count: 210
+The standard vector performance is %.2f OP/cycle (%.2f% utilization).
+Calculating VTMAC imatmul...
+The VTMAC execution took 0 cycles.
+VTMAC instruction count: 567
+The VTMAC performance is %.2f OP/cycle (%.2f% utilization).
+
+--- Comparison Metrics ---
+Standard Vector vs Scalar:
+  Instruction reduction: %.2f% (4634682015285772288 vs 210)
+  Speedup: %.2fx
+VTMAC vs Scalar:
+  Instruction reduction: %.2f% (4626643731661979648 vs 567)
+  Speedup: %.2fx
+VTMAC vs Standard Vector:
+  Instruction reduction: %.2f% (4890480281099698176 vs 567)
+  Speedup: %.2fx
+
+------------------------------------------------------------
+Calculating a (8 x 8) x (8 x 8) matrix multiplication...
+------------------------------------------------------------
+
+Calculating scalar imatmul...
+The scalar execution took 0 cycles.
+Scalar instruction count: 4855
+The scalar performance is %.2f OP/cycle (%.2f% utilization).
+Calculating standard vector imatmul...
+The standard vector execution took 0 cycles.
+Standard vector instruction count: 348
+The standard vector performance is %.2f OP/cycle (%.2f% utilization).
+Calculating VTMAC imatmul...
+The VTMAC execution took 0 cycles.
+VTMAC instruction count: 2167
+The VTMAC performance is %.2f OP/cycle (%.2f% utilization).
+
+--- Comparison Metrics ---
+Standard Vector vs Scalar:
+  Instruction reduction: %.2f% (4636232897374715904 vs 348)
+  Speedup: %.2fx
+VTMAC vs Scalar:
+  Instruction reduction: %.2f% (4632988832877248512 vs 2167)
+  Speedup: %.2fx
+VTMAC vs Standard Vector:
+  Instruction reduction: %.2f% (4887078547279052800 vs 2167)
+  Speedup: %.2fx
+
+------------------------------------------------------------
+Calculating a (16 x 16) x (16 x 16) matrix multiplication...
+------------------------------------------------------------
+
+Calculating scalar imatmul...
+The scalar execution took 0 cycles.
+Scalar instruction count: 35687
+The scalar performance is %.2f OP/cycle (%.2f% utilization).
+Calculating standard vector imatmul...
+The standard vector execution took 0 cycles.
+Standard vector instruction count: 1073
+The standard vector performance is %.2f OP/cycle (%.2f% utilization).
+Calculating VTMAC imatmul...
+The VTMAC execution took 0 cycles.
+VTMAC instruction count: 8535
+The VTMAC performance is %.2f OP/cycle (%.2f% utilization).
+
+--- Comparison Metrics ---
+Standard Vector vs Scalar:
+  Instruction reduction: %.2f% (4636525713749442560 vs 1073)
+  Speedup: %.2fx
+VTMAC vs Scalar:
+  Instruction reduction: %.2f% (4635054333115760640 vs 8535)
+  Speedup: %.2fx
+VTMAC vs Standard Vector:
+  Instruction reduction: %.2f% (4879610322853298176 vs 8535)
+  Speedup: %.2fx
+
+------------------------------------------------------------
+Calculating a (32 x 32) x (32 x 32) matrix multiplication...
+------------------------------------------------------------
+
+Calculating scalar imatmul...
+The scalar execution took 0 cycles.
+Scalar instruction count: 273607
+The scalar performance is %.2f OP/cycle (%.2f% utilization).
+Calculating standard vector imatmul...
+The standard vector execution took 0 cycles.
+Standard vector instruction count: 3867
+The standard vector performance is %.2f OP/cycle (%.2f% utilization).
+Calculating VTMAC imatmul...
+The VTMAC execution took 0 cycles.
+VTMAC instruction count: 33943
+The VTMAC performance is %.2f OP/cycle (%.2f% utilization).
+
+--- Comparison Metrics ---
+Standard Vector vs Scalar:
+  Instruction reduction: %.2f% (4636637836555059200 vs 3867)
+  Speedup: %.2fx
+VTMAC vs Scalar:
+  Instruction reduction: %.2f% (4635864314555662336 vs 33943)
+  Speedup: %.2fx
+VTMAC vs Standard Vector:
+  Instruction reduction: %.2f% (4871341189032312832 vs 33943)
+  Speedup: %.2fx
+
+------------------------------------------------------------
+Calculating a (64 x 64) x (64 x 64) matrix multiplication...
+------------------------------------------------------------
+
+Calculating scalar imatmul...
+The scalar execution took 0 cycles.
+Scalar instruction count: 2142599
+The scalar performance is %.2f OP/cycle (%.2f% utilization).
+Calculating standard vector imatmul...
+The standard vector execution took 0 cycles.
+Standard vector instruction count: 14831
+The standard vector performance is %.2f OP/cycle (%.2f% utilization).
+Calculating VTMAC imatmul...
+The VTMAC execution took 0 cycles.
+VTMAC instruction count: 135447
+The VTMAC performance is %.2f OP/cycle (%.2f% utilization).
+
+--- Comparison Metrics ---
+Standard Vector vs Scalar:
+  Instruction reduction: %.2f% (4636688582130532352 vs 14831)
+  Speedup: %.2fx
+VTMAC vs Scalar:
+  Instruction reduction: %.2f% (4636292446559404032 vs 135447)
+  Speedup: %.2fx
+VTMAC vs Standard Vector:
+  Instruction reduction: %.2f% (4862654125902397440 vs 135447)
+  Speedup: %.2fx
+
+------------------------------------------------------------
+Calculating a (128 x 128) x (128 x 128) matrix multiplication...
+------------------------------------------------------------
+
+Calculating scalar imatmul...
+The scalar execution took 0 cycles.
+Scalar instruction count: 16958215
+The scalar performance is %.2f OP/cycle (%.2f% utilization).
+Calculating standard vector imatmul...
+The standard vector execution took 0 cycles.
+Standard vector instruction count: 58263
+The standard vector performance is %.2f OP/cycle (%.2f% utilization).
+Calculating VTMAC imatmul...
+The VTMAC execution took 0 cycles.
+VTMAC instruction count: 541207
+The VTMAC performance is %.2f OP/cycle (%.2f% utilization).
+
+--- Comparison Metrics ---
+Standard Vector vs Scalar:
+  Instruction reduction: %.2f% (4636713114983727104 vs 58263)
+  Speedup: %.2fx
+VTMAC vs Scalar:
+  Instruction reduction: %.2f% (4636512715567792128 vs 541207)
+  Speedup: %.2fx
+VTMAC vs Standard Vector:
+  Instruction reduction: %.2f% (4853788489843474432 vs 541207)
+  Speedup: %.2fx
+
+Verifying standard vector result...
+Standard vector passed.
+Verifying scalar result...
+Scalar passed.
+Verifying VTMAC result...
+Error code -1
+c_vtmac[-1]=-99765764

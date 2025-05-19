@@ -254,6 +254,7 @@ module ara import ara_pkg::*; #(
   logic                            lsu_current_burst_exception;
   logic              [NrLanes-1:0] alu_vinsn_done;
   logic              [NrLanes-1:0] mfpu_vinsn_done;
+  logic              [NrLanes-1:0] tmac_vinsn_done;
   // Interface with the operand requesters
   logic [NrVInsn-1:0][NrVInsn-1:0] global_hazard_table;
   // Ready for lane 0 (scalar operand fwd)
@@ -298,6 +299,7 @@ module ara import ara_pkg::*; #(
     .pe_resp_i             (pe_resp                  ),
     .alu_vinsn_done_i      (alu_vinsn_done[0]        ),
     .mfpu_vinsn_done_i     (mfpu_vinsn_done[0]       ),
+    .tmac_vinsn_done_i     (tmac_vinsn_done[0]       ),
     // Interface with the operand requesters
     .global_hazard_table_o (global_hazard_table      ),
     // Interface with the lane 0
@@ -398,6 +400,7 @@ module ara import ara_pkg::*; #(
       .pe_resp_o                       (pe_resp[lane]                       ),
       .alu_vinsn_done_o                (alu_vinsn_done[lane]                ),
       .mfpu_vinsn_done_o               (mfpu_vinsn_done[lane]               ),
+      .tmac_vinsn_done_o               (tmac_vinsn_done[lane]               ),
       .global_hazard_table_i           (global_hazard_table                 ),
       // Interface with the slide unit
       .sldu_result_req_i               (sldu_result_req[lane]               ),

@@ -694,6 +694,8 @@ module ara_dispatcher import ara_pkg::*; import rvv_pkg::*; #(
 
                 // Decode based on the func6 field
                 unique case (insn.varith_type.func6)
+                  6'b111001: ara_req.op = ara_pkg::VTMAC;
+                  6'b110010: ara_req.op = ara_pkg::VTMACC;
                   6'b000000: ara_req.op = ara_pkg::VADD;
                   6'b000010: ara_req.op = ara_pkg::VSUB;
                   6'b000100: ara_req.op = ara_pkg::VMINU;
@@ -3351,6 +3353,7 @@ module ara_dispatcher import ara_pkg::*; import rvv_pkg::*; #(
             if (state_qq != WAIT_IDLE) begin
               state_d = WAIT_IDLE;
               acc_resp_o.req_ready = 1'b0;
+              is_config = 1'b1;
             end else begin
               // These always respond at the same cycle
               acc_resp_o.resp_valid = 1'b1;

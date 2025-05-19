@@ -1,0 +1,23 @@
+
+=============
+=  IVEC8MUL =
+=============
+
+Vector Length: 1024
+Calculating 8-bit vector multiplication...
+
+=== Vector Implementation Performance ===
+Cycles:        33
+Instructions:  33
+IPC:           %.2f
+Vector Implementation: Passed. All results match the expected values.
+
+=== Scalar Implementation Performance ===
+Cycles:        9220
+Instructions:  9220
+IPC:           %.2f
+Scalar Implementation: Passed. All results match the expected values.
+
+=== Performance Comparison ===
+Instruction Reduction: %.2fx
+Speedup (Cycles): %.2fx

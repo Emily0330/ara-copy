@@ -79,6 +79,17 @@ package ara_pkg;
     return e[0];
   endfunction : RVVBA
 
+  // TMAC latencies
+  localparam int unsigned LatTmacEW64 = 2; // Adjust based on your implementation
+  localparam int unsigned LatTmacEW32 = 2;
+  localparam int unsigned LatTmacEW16 = 1;
+  localparam int unsigned LatTmacEW8  = 1;
+
+  // TMAC-specific parameters
+  localparam int unsigned TmacLUTSize = 16; // The default LUT size in your implementation
+  localparam int unsigned TmacWeightBits = 4; // Default weight bits
+
+
   // Multiplier latencies.
   localparam int unsigned LatMultiplierEW64 = 1;
   localparam int unsigned LatMultiplierEW32 = 1;
@@ -111,7 +122,8 @@ package ara_pkg;
   localparam int unsigned NoneInsnQueueDepth = 1;
   // Ara supports MaskuInsnQueueDepth = 1 only.
   localparam int unsigned MaskuInsnQueueDepth = 1;
-
+  // Tmac instruction queue
+  localparam int unsigned TmacInsnQueueDepth = 4;
   ///////////////////
   //  Definitions  //
   ///////////////////
@@ -171,7 +183,9 @@ package ara_pkg;
     // Load instructions
     VLE, VLSE, VLXE,
     // Store instructions
-    VSE, VSSE, VSXE
+    VSE, VSSE, VSXE,
+    // Tmac operation
+    VTMAC, VTMACC
   } ara_op_e;
 
   // Return true if op is a load operation
@@ -361,9 +375,9 @@ typedef struct packed {
   // It is important that all the VFUs that can write back to the VRF
   // are grouped towards the beginning of the enumeration. The store unit
   // cannot do so, therefore it is at the end of the enumeration.
-  localparam int unsigned NrVFUs = 7;
+  localparam int unsigned NrVFUs = 8;
   typedef enum logic [$clog2(NrVFUs)-1:0] {
-    VFU_Alu, VFU_MFpu, VFU_SlideUnit, VFU_MaskUnit, VFU_LoadUnit, VFU_StoreUnit, VFU_None
+    VFU_Alu, VFU_MFpu, VFU_SlideUnit, VFU_MaskUnit, VFU_LoadUnit, VFU_StoreUnit, VFU_TmacUnit, VFU_None
   } vfu_e;
 
   // Internally, each lane is treated as a processing element, between indexes
@@ -371,8 +385,8 @@ typedef struct packed {
   // scale also are with index given by NrLanes plus the following offset.
   //
   // The load and the store unit must be at the beginning of this enumeration.
-  typedef enum logic [1:0] {
-    OffsetLoad, OffsetStore, OffsetMask, OffsetSlide
+  typedef enum logic [2:0] {
+    OffsetLoad, OffsetStore, OffsetMask, OffsetSlide, OffsetTmac
   } vfu_offset_e;
 
   /* The VRF data is stored into the lanes in a shuffled way, similar to how it was done
@@ -919,9 +933,9 @@ typedef struct packed {
   ////////////////////////
 
   // There are seven operand queues, serving operands to the different functional units of each lane
-  localparam int unsigned NrOperandQueues = 9;
+  localparam int unsigned NrOperandQueues = 11;
   typedef enum logic [$clog2(NrOperandQueues)-1:0] {
-    AluA, AluB, MulFPUA, MulFPUB, MulFPUC, MaskB, MaskM, StA, SlideAddrGenA
+    AluA, AluB, MulFPUA, MulFPUB, MulFPUC, MaskB, MaskM, StA, SlideAddrGenA, TmacA, TmacB
   } opqueue_e;
 
   // Each lane has eight VRF banks
@@ -943,9 +957,11 @@ typedef struct packed {
   endfunction: vaddr
 
   // Differenciate between SLDU and ADDRGEN operands from opqueue
-  typedef enum logic {
-    ALU_SLDU     = 1'b0,
-    MFPU_ADDRGEN = 1'b1
+  // Differenciate between SLDU, ADDRGEN and TMAC operands from opqueue
+  typedef enum logic [1:0] {  // Change from logic to logic [1:0]
+    ALU_SLDU     = 2'b00,    // Change from 1'b0 to 2'b00
+    MFPU_ADDRGEN = 2'b01,    // Change from 1'b1 to 2'b01
+    TMAC         = 2'b10     // Add new value for TMAC
   } target_fu_e;
 
   // Due to the shuffled nature of the vector elements inside one lane, the byte enable
